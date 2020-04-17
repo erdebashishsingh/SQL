@@ -1,0 +1,7 @@
+SELECT
+  SUM(SALARY) OVER(PARTITION BY DEPARTMENT ORDER BY SALARY DESC) SAL,
+  SALARY,
+  DEPARTMENT
+FROM
+  STAFF;
+/* this gives the running sum of the salary */
