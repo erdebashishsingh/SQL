@@ -90,6 +90,8 @@ SELECT
 department AS Department, 
 gender AS Gender, 
 sum(salary) as Salary_Sum,
+GROUPING(department),
+GROUPING(gender),
 CAST(GROUPING(department) AS VARCHAR(1)) ||
 CAST(GROUPING(gender) AS VARCHAR (1))  as Grouping,
 GROUPING_ID(department, gender) as Grouping_Id -- It is the sum of grouping for all columns selected
