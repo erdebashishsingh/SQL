@@ -24,7 +24,7 @@ Books	146701
  
 SELECT DISTINCT DEPARTMENT , NTH_VALUE(SALARY,2) OVER (PARTITION BY DEPARTMENT ORDER BY SALARY DESC) AS "2ND HIGHEST" FROM STAFF WHERE DEPARTMENT IN ('Automotive','Baby','Beauty','Books') ORDER BY 1;
 
-/* WITHOUT RANGE OPERATOR THE NULLS ARE COMING AS 
+/* WITHOUT RANGE OPERATOR THE NULLS ARE COMING AS  --always use range clause to get correct result
 
 windowing_clause	                                              Description
 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW	              Last row in the window changes as the current row changes (default)
