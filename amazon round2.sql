@@ -69,9 +69,9 @@ SELECT DISTINCT dt  AS "DATE",
        FROM res R ;
  
  with res as (select sum(passengers) sm, destination , to_char(date_time,'mm') dt from flights group by DESTINATION ,to_char(date_time,'mm'))
- select rank() over(partition by dt order by sm desc) rnk , dt , destination from res
+ SELECT DT,destination  FROM(  select rank() over(partition by dt order by sm desc) rnk , dt , destination from res
  union 
- select rank() over(partition by dt order by sm asc) rnk , dt , destination from res;
+ select rank() over(partition by dt order by sm asc) rnk , dt , destination from res) WHERE RNK = 1;
  
  
  
