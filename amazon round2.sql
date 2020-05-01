@@ -56,10 +56,15 @@ V1 DATE PREV_DATE
 /* result */
 
 with res as (SELECT COUNT(VISITORID) cnt , DT   FROM VISITORLOG GROUP BY DT) 
- select dt ,cnt,cnt- lag(cnt,1) over (order by dt) as lg , lead(cnt,1) over (order by dt)- cnt ld from res;
+ select dt ,cnt,cnt- lag(cnt,1) over (order by dt) as lg , lead(cnt,1) over (order by dt)- cnt ld  from res;
  
  select * from FLIGHTS;
  with res as (select sum(passengers) sm, destination , to_char(date_time,'mm') dt from flights group by DESTINATION ,to_char(date_time,'mm'))
  select rank() over(partition by dt order by sm desc) rnk , dt , destination from res
  union 
  select rank() over(partition by dt order by sm asc) rnk , dt , destination from res;
+ 
+ 
+ 
+ with res as (select sum(passengers) sm, destination , to_char(date_time,'mm') dt from flights group by DESTINATION ,to_char(date_time,'mm'))
+ select rank() over(partition by dt order by sm desc) rnk ,rank() over(partition by dt order by sm asc) rnk, dt , destination from res;
