@@ -54,11 +54,20 @@ V1 DATE PREV_DATE
  */
  
 /* result */
-
-with res as (SELECT COUNT(VISITORID) cnt , DT   FROM VISITORLOG GROUP BY DT) 
- select dt ,cnt,cnt- lag(cnt,1) over (order by dt) as lg , lead(cnt,1) over (order by dt)- cnt ld  from res;
+WITH res AS
+  (SELECT COUNT(visitorid) cnt , dt FROM visitorlog GROUP BY dt
+  ), 
+  FRST_DT AS (SELECT MIN(DT) MNDT , visitorid FROM visitorlog GROUP BY visitorid)
+SELECT DISTINCT dt  AS "DATE",
+  cnt AS "Total_Visitors" ,
+  CASE
+    WHEN (cnt- lag(cnt,1) OVER (ORDER BY dt)) < 1
+    THEN 0
+    ELSE NVL(cnt - lag(cnt,1) OVER (ORDER BY dt),0) END AS VisitorGain ,
+      CASE WHEN (lag(cnt,1) OVER (ORDER BY dt) - CNT) <1 THEN 0 ELSE NVL(lag(cnt,1) OVER (ORDER BY dt) - CNT,0) END  VisitorLoss  ,
+      (SELECT COUNT(visitorid) FROM FRST_DT  A WHERE A.MNDT = R.DT) AS NEW_VISITOR 
+       FROM res R ;
  
- select * from FLIGHTS;
  with res as (select sum(passengers) sm, destination , to_char(date_time,'mm') dt from flights group by DESTINATION ,to_char(date_time,'mm'))
  select rank() over(partition by dt order by sm desc) rnk , dt , destination from res
  union 
