@@ -1,0 +1,2 @@
+20. select DISTINCT Cat.CategoryName , count(productId) TotalProduct from dbo.products prod , [dbo].[Categories] Cat where cat.CategoryID = prod.CategoryID GROUP BY Cat.CategoryName ORDER BY 2 DESC;
+21. SELECT Country , City , COUNT(DISTINCT CUSTOMERID)  TotalCustomer FROM CUSTOMERS CUST group by Country , City ORDER BY 3 DESC ;
