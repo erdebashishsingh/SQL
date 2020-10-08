@@ -1,2 +1,35 @@
 20. select DISTINCT Cat.CategoryName , count(productId) TotalProduct from dbo.products prod , [dbo].[Categories] Cat where cat.CategoryID = prod.CategoryID GROUP BY Cat.CategoryName ORDER BY 2 DESC;
 21. SELECT Country , City , COUNT(DISTINCT CUSTOMERID)  TotalCustomer FROM CUSTOMERS CUST group by Country , City ORDER BY 3 DESC ;
+32.SELECT Cust.CustomerId,Cust.CompanyName, SUM(Ordet.UnitPrice*Ordet.Quantity) TotalPrice from Customers Cust , Orders Ord , OrderDetails Ordet where cust.CustomerId = Ord.CustomerId and Ord.OrderId = Ordet.OrderId AND YEAR(Ord.OrderDate) = 2016
+group by Cust.CustomerId,Cust.CompanyName,ord.OrderId having SUM(Ordet.UnitPrice*Ordet.Quantity)  > 10000  order by 3 desc;
+33.SELECT Cust.CustomerId,Cust.CompanyName, SUM(Ordet.UnitPrice*Ordet.Quantity) TotalPrice from Customers Cust , Orders Ord , OrderDetails Ordet where cust.CustomerId = Ord.CustomerId and Ord.OrderId = Ordet.OrderId AND YEAR(Ord.OrderDate) = 2016
+group by Cust.CustomerId,Cust.CompanyName having SUM(Ordet.UnitPrice*Ordet.Quantity)  > 15000  order by 3 desc;
+
+34. SELECT Cust.CustomerId,Cust.CompanyName,Total_with_discount= SUM(Ordet.UnitPrice*Ordet.Quantity*(1-discount)) ,total_without_discount=SUM(Ordet.UnitPrice*Ordet.Quantity)  from Customers Cust , Orders Ord , OrderDetails Ordet where cust.CustomerId = Ord.CustomerId and Ord.OrderId = Ordet.OrderId AND YEAR(Ord.OrderDate) = 2016
+group by Cust.CustomerId,Cust.CompanyName   having SUM(Ordet.UnitPrice*Ordet.Quantity)  > 15000  order by 3 desc;
+
+35.select Emp.EmployeeId , Ord.OrderId , OrderDate , Day(OrderDate) from Orders ord, Employees Emp where Emp.EmployeeID = Ord.EmployeeID 
+and OrderDate =EOMONTH(OrderDate) order by 1,2;
+
+36.SELECT top 10  ORDERiD,COUNT(*) TotalOrderDetails FROM ORDERdetails   group by ORDERiD order by count(*) desc ;
+37.SELECT top 2 percent ORDERID FROM ORDERS order by NewID();
+38.select  det.OrderId from  orderdetails det  where det.Quantity >=60
+group by Quantity , OrderId having count(*) > 1 Order by orderid 
+
+39.with dup_ord as(select  det.OrderId from  orderdetails det  where det.Quantity >=60
+group by Quantity , OrderId having count(*) > 1 ) 
+select DISTINCT det.* from orderdetails det , dup_ord dup where dup.Orderid = det.Orderid order by det.orderId,det.quantity;
+
+41. SELECT ORDERID,ORDERDATE,cast(REQUIREDDATE as date),cast(SHIPPEDDATE as date)  FROM ORDERS ORD WHERE SHIPPEDDATE >= REQUIREDDATE ORDER BY ORDERID;
+42.SELECT emp.employeeid,lastname,count(*)  FROM ORDERS ORD,Employees Emp WHERE
+emp.employeeid = ord.employeeid and 
+SHIPPEDDATE >= REQUIREDDATE group by emp.employeeid,lastname ORDER BY count(*) desc;
+
+43.SELECT emp.employeeid,lastname,count(*) TotalOrder ,SUM(CASE WHEN SHIPPEDDATE >= REQUIREDDATE  THEN 1 ELSE 0 END) TOTALLATE  FROM ORDERS ORD,Employees Emp WHERE
+emp.employeeid = ord.employeeid 
+group by emp.employeeid,lastname ORDER BY emp.employeeid ASC;
+
+48.select Cust.CustomerId , CompanyName, "Total Order Amount" = Sum(UnitPrice*Quantity) ,"Customer Group" = CASE WHEN Sum(UnitPrice*Quantity)  BETWEEN 0 AND  1000 THEN 'Low'
+	WHEN Sum(UnitPrice*Quantity)  BETWEEN 1000 AND  5000 THEN 'Medium' 
+	WHEN Sum(UnitPrice*Quantity)  BETWEEN 5000 AND  10000 THEN 'High' ELSE 'Very High' END from Orders Ord , OrderDetails Ordet, Customers Cust where Cust.CustomerId = Ord.CustomerId 
+and Ordet.Orderid = Ord.OrderId  AND YEAR(ORDERDATE) = 2016 group by Cust.CustomerId , CompanyName ORDER BY 1  ASC;
