@@ -1,0 +1,6 @@
+DELETE FROM your_table
+WHERE rowid not in
+(SELECT MIN(rowid)
+FROM your_table
+GROUP BY column1, column2, column3);
+Where column1, column2, and column3 make up the identifying key for each record. You might list all your columns.

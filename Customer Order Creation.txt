@@ -1,0 +1,58 @@
+--Insert failed for row  1 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 1
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A2TF17PFR55MTB',4496,50.6,to_date('11/30/18 16:10', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  2 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 2
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A32DOYMUN6DTXA',92589,27.8,to_date('11/30/18 16:05', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  3 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 3
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A32DOYMUN6DTXA',80710,96.6,to_date('11/30/18 16:18', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  4 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 4
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('AB72C64C86AW2',32524,29.36,to_date('11/30/18 16:20', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  5 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 5
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('AB72C64C86AW2',74378,11.16,to_date('11/30/18 18:16', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  6 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 6
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A3S5BH2HU6VAYF',47201,53.55,to_date('11/30/18 16:20', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  7 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 7
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A3S5BH2HU6VAYF',50015,73.9,to_date('11/30/18 18:08', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  8 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 8
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A3S5BH2HU6VAYF',81255,80.75,to_date('11/30/18 20:18', 'MM-DD-YY:HH24:MI:SS'));
+--Insert failed for row  9 
+--ORDER_DATETIME GDK-05040: input value not long enough for the date format
+--Row 9
+INSERT INTO CUST_ORDER (CUSTOMER_ID, ORDER_ID, SALES_USD, ORDER_DATETIME) VALUES ('A1NL4BVLQ4L3N3',98671,95.75,to_date('11/30/18 17:08', 'MM-DD-YY:HH24:MI:SS'));
+
+
+Questions
+
+Write a query that will count the number of unique customers and the average sales amount in 
+November 2018 (01 Nov - 30 Nov 2018).
+
+
+Write a query that will count the number of unique customers and the average of customers 
+average sales amount in November 2018 (01 Nov - 30 Nov 2018).
+
+ 
+Write a query that will provide the second order ever for each customer_ID. - SELECT CUSTOMER_ID , order_id FROM(SELECT CUSTOMER_ID , RANK() OVER (PARTITION BY CUSTOMER_ID ORDER BY ORDER_DATETIME ASC) RN, order_id , order_datetime  FROM CUST_ORDER) WHERE RN =2;
+
+
+Write a query that will produce the list of customer IDs for customers who ordered more dollars-worth in 2018 than they did in 2017.
+
+
+SELECT COUNT(DISTINCT CUSTOMER_ID), AVG(sales_usd) FROM CUST_ORDER;
+SELECT DISTINCT COUNT(DISTINCT CUSTOMER_ID) OVER (PARTITION BY 1), AVG(SALES_USD) OVER (PARTITION BY CUSTOMER_ID) FROM CUST_ORDER;
+
+SELECT CUSTOMER_ID , order_id FROM(SELECT CUSTOMER_ID , RANK() OVER (PARTITION BY CUSTOMER_ID ORDER BY ORDER_DATETIME ASC) RN, order_id , order_datetime  FROM CUST_ORDER) WHERE RN =2;
